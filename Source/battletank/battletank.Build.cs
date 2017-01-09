@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class tank : ModuleRules
+public class battletank : ModuleRules
 {
-	public tank(TargetInfo Target)
+	public battletank(TargetInfo Target)
 	{
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
 
@@ -12,7 +12,7 @@ public class tank : ModuleRules
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
-		
+
 		// Uncomment if you are using online features
 		// PrivateDependencyModuleNames.Add("OnlineSubsystem");
 

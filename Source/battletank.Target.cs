@@ -3,11 +3,11 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class tankEditorTarget : TargetRules
+public class battletankTarget : TargetRules
 {
-	public tankEditorTarget(TargetInfo Target)
+	public battletankTarget(TargetInfo Target)
 	{
-		Type = TargetType.Editor;
+		Type = TargetType.Game;
 	}
 
 	//
@@ -20,6 +20,6 @@ public class tankEditorTarget : TargetRules
 		ref List<string> OutExtraModuleNames
 		)
 	{
-		OutExtraModuleNames.AddRange( new string[] { "tank" } );
+		OutExtraModuleNames.AddRange( new string[] { "battletank" } );
 	}
 }
