@@ -50,6 +50,8 @@ bool ATankPlayerController::hitSomethingAndPutResultsInto(OUT FHitResult& result
 
 bool ATankPlayerController::gotSightRayHitLocationIn(OUT FVector& hitLocation) const
 {
+	bool hitSomething = false;
+	
 	OUT FVector worldLocation;
 	OUT FVector lookDirection;
 
@@ -59,10 +61,10 @@ bool ATankPlayerController::gotSightRayHitLocationIn(OUT FVector& hitLocation) c
 		if (hitSomethingAndPutResultsInto(result, &worldLocation, &lookDirection))
 		{
 			hitLocation = result.ImpactPoint;
-			return true;
+			hitSomething = true;
 		};
 	}
-	return false;
+	return hitSomething;
 }
 
 ATank* ATankPlayerController::GetControlledTank() const
