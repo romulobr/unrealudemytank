@@ -44,8 +44,7 @@ bool ATankPlayerController::gotAimingCoordinatesInto(FVector& worldLocation, FVe
 bool ATankPlayerController::hitSomethingAndPutResultsInto(OUT FHitResult& result, FVector* worldLocation, FVector* lookDirection) const
 {
 	auto start = *worldLocation;
-	auto end = *worldLocation + (*lookDirection * 100000.0f);
-	DrawDebugLine(GetWorld(), start, end, FColor(255, 255, 100), false, 0.0f, 0.0f, 3.0f);
+	auto end = *worldLocation + (*lookDirection * aimRange);
 	return GetWorld()->LineTraceSingleByChannel(result, start, end, ECC_Visibility);
 }
 

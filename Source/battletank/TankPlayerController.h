@@ -31,6 +31,9 @@ public:
 	void Tick(float DeltaTime);
 
 	UPROPERTY(EditAnywhere)
+	float aimRange = 100000.0f;
+
+	UPROPERTY(EditAnywhere)
 	float crossHairXLocation = 0.5;
 
 	UPROPERTY(EditAnywhere)
