@@ -46,7 +46,6 @@ bool ATankPlayerController::hitSomethingAndPutResultsInto(OUT FHitResult& result
 	auto start = *worldLocation;
 	auto end = *worldLocation + (*lookDirection * 100000.0f);
 	DrawDebugLine(GetWorld(), start, end, FColor(255, 255, 100), false, 0.0f, 0.0f, 3.0f);
-	UE_LOG(LogTemp, Warning, TEXT("\n\n\nstart: %s end %s\n\n\n"), *start.ToString(), *end.ToString());
 	return GetWorld()->LineTraceSingleByChannel(result, start, end, ECC_Visibility);
 }
 
@@ -60,7 +59,6 @@ bool ATankPlayerController::gotSightRayHitLocationIn(OUT FVector& hitLocation) c
 		OUT FHitResult result;
 		if (hitSomethingAndPutResultsInto(result, &worldLocation, &lookDirection))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Hit: %s\n"), *result.ToString());
 			hitLocation = result.ImpactPoint;
 			return true;
 		};
