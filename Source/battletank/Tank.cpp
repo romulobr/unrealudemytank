@@ -32,7 +32,7 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 
 void ATank::AimAt(FVector location)
 {
-	aimingComponent->AimAt(location);
+	aimingComponent->AimAt(location, LaunchSpeed);
 }
 
 void ATank::SetBarrel(UStaticMeshComponent* barrel)

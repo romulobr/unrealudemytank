@@ -25,23 +25,19 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
-void UTankAimingComponent::AimAt(FVector location)
+void UTankAimingComponent::AimAt(FVector targetLocation, float launchSpeed)
 {
 	auto name = GetOwner()->GetName();
 	FVector barrelLocation;
-	if (barrel)
+	auto startLocation = barrel->GetSocketLocation(FName("projectile"));
+	FVector OUT velocity;
+	if(UGameplayStatics::SuggestProjectileVelocity(this, velocity, startLocation, targetLocation, launchSpeed, false))
 	{
-		barrelLocation = barrel->GetComponentLocation();
-	}
-	else
-	{
-		barrelLocation = FVector::ZeroVector;
-	}
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s, from: %s\n"), *name, *location.ToString(), *barrelLocation.ToString());
+		auto aimDirection = velocity.GetSafeNormal();
+		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s \n"), *name, *aimDirection.ToString());
+	}		
 }
 
 void UTankAimingComponent::SetBarrel(UStaticMeshComponent* barrelToSet)
