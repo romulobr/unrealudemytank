@@ -51,7 +51,8 @@ bool ATankPlayerController::hitSomethingAndPutResultsInto(OUT FHitResult& result
 bool ATankPlayerController::gotSightRayHitLocationIn(OUT FVector& hitLocation) const
 {
 	bool hitSomething = false;
-	
+	hitLocation = FVector::ZeroVector;
+
 	OUT FVector worldLocation;
 	OUT FVector lookDirection;
 
@@ -62,7 +63,7 @@ bool ATankPlayerController::gotSightRayHitLocationIn(OUT FVector& hitLocation) c
 		{
 			hitLocation = result.ImpactPoint;
 			hitSomething = true;
-		};
+		}
 	}
 	return hitSomething;
 }
