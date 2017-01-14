@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "TankBarrel.h"
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
@@ -12,7 +13,7 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 private:
-	UStaticMeshComponent* barrel = nullptr;
+	UTankBarrel* barrel = nullptr;
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
@@ -22,6 +23,7 @@ public:
 	
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
+	void moveBarrelTowards(FVector direction);
 	void AimAt(FVector location, float launchSpeed);
-	void SetBarrel(UStaticMeshComponent* barrel);
+	void SetBarrel(UTankBarrel* barrel);
 };

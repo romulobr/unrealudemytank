@@ -27,20 +27,30 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
+void UTankAimingComponent::moveBarrelTowards(FVector direction)
+{
+	OUT FHitResult result;
+	auto barrelRotator = barrel->GetForwardVector().Rotation();
+	auto aimAsRotator = direction.Rotation();
+	auto deltaRotator = aimAsRotator - barrelRotator;
+	barrel->Elevate(2.0f);
+}
+
 void UTankAimingComponent::AimAt(FVector targetLocation, float launchSpeed)
 {
 	auto name = GetOwner()->GetName();
-	FVector barrelLocation;
 	auto startLocation = barrel->GetSocketLocation(FName("projectile"));
+	
 	FVector OUT velocity;
 	if(UGameplayStatics::SuggestProjectileVelocity(this, velocity, startLocation, targetLocation, launchSpeed, false))
 	{
 		auto aimDirection = velocity.GetSafeNormal();
+		moveBarrelTowards(aimDirection);
 		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s \n"), *name, *aimDirection.ToString());
 	}		
 }
 
-void UTankAimingComponent::SetBarrel(UStaticMeshComponent* barrelToSet)
+void UTankAimingComponent::SetBarrel(UTankBarrel* barrelToSet)
 {
 	barrel = barrelToSet;
 }

@@ -32,6 +32,6 @@ public:
 	float LaunchSpeed = 100000;
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrel(UStaticMeshComponent* barrel);
+	void SetBarrel(UTankBarrel* barrel);
 	
 };
