@@ -1,0 +1,175 @@
+[1mdiff --git a/Config/DefaultGame.ini b/Config/DefaultGame.ini[m
+[1mindex 5695e72..5df6e47 100644[m
+[1m--- a/Config/DefaultGame.ini[m
+[1m+++ b/Config/DefaultGame.ini[m
+[36m@@ -1,5 +1,6 @@[m
+ [/Script/EngineSettings.GeneralProjectSettings][m
+ ProjectID=C5AD21584551AF1D1994DF90CF49456D[m
+[32m+[m[32mCopyrightNotice=[m
+ [m
+ [StartupActions][m
+ bAddPacks=True[m
+[1mdiff --git a/Source/battletank/Tank.cpp b/Source/battletank/Tank.cpp[m
+[1mindex c5902fe..dba9953 100644[m
+[1m--- a/Source/battletank/Tank.cpp[m
+[1m+++ b/Source/battletank/Tank.cpp[m
+[36m@@ -2,6 +2,7 @@[m
+ [m
+ #include "battletank.h"[m
+ #include "Tank.h"[m
+[32m+[m[32m#include "TankAimingComponent.h"[m
+ [m
+ [m
+ // Sets default values[m
+[1mdiff --git a/Source/battletank/Tank.h b/Source/battletank/Tank.h[m
+[1mindex 427be77..20108da 100644[m
+[1m--- a/Source/battletank/Tank.h[m
+[1m+++ b/Source/battletank/Tank.h[m
+[36m@@ -1,11 +1,12 @@[m
+[31m-// Fill out your copyright notice in the Description page of Project Settings.[m
+[31m-[m
+ #pragma once[m
+ [m
+[31m-#include "TankAimingComponent.h"[m
+ #include "GameFramework/Pawn.h"[m
+ #include "Tank.generated.h"[m
+ [m
+[32m+[m
+[32m+[m[32mclass UTankBarrel;[m
+[32m+[m[32mclass UTankAimingComponent;[m
+[32m+[m
+ UCLASS()[m
+ class BATTLETANK_API ATank : public APawn[m
+ {[m
+[1mdiff --git a/Source/battletank/TankAIController.cpp b/Source/battletank/TankAIController.cpp[m
+[1mindex 40ef14a..3b86283 100644[m
+[1m--- a/Source/battletank/TankAIController.cpp[m
+[1m+++ b/Source/battletank/TankAIController.cpp[m
+[36m@@ -1,5 +1,6 @@[m
+ // Fill out your copyright notice in the Description page of Project Settings.[m
+ [m
+[32m+[m[32m#include "Tank.h"[m
+ #include "battletank.h"[m
+ #include "TankAIController.h"[m
+ [m
+[1mdiff --git a/Source/battletank/TankAIController.h b/Source/battletank/TankAIController.h[m
+[1mindex 196b758..9b389b5 100644[m
+[1m--- a/Source/battletank/TankAIController.h[m
+[1m+++ b/Source/battletank/TankAIController.h[m
+[36m@@ -3,13 +3,10 @@[m
+ #pragma once[m
+ [m
+ #include "AIController.h"[m
+[31m-#include "Tank.h"[m
+ #include "TankAIController.generated.h"[m
+ [m
+[32m+[m[32mclass ATank;[m
+ [m
+[31m-/**[m
+[31m- * [m
+[31m- */[m
+ UCLASS()[m
+ class BATTLETANK_API ATankAIController : public AAIController[m
+ {[m
+[1mdiff --git a/Source/battletank/TankAimingComponent.cpp b/Source/battletank/TankAimingComponent.cpp[m
+[1mindex 0eb859f..cab9d70 100644[m
+[1m--- a/Source/battletank/TankAimingComponent.cpp[m
+[1m+++ b/Source/battletank/TankAimingComponent.cpp[m
+[36m@@ -1,5 +1,6 @@[m
+ // Fill out your copyright notice in the Description page of Project Settings.[m
+ [m
+[32m+[m[32m#include "TankBarrel.h"[m
+ #include "battletank.h"[m
+ #include "TankAimingComponent.h"[m
+ [m
+[36m@@ -33,7 +34,7 @@[m [mvoid UTankAimingComponent::moveBarrelTowards(FVector direction)[m
+ 	auto barrelRotator = barrel->GetForwardVector().Rotation();[m
+ 	auto aimAsRotator = direction.Rotation();[m
+ 	auto deltaRotator = aimAsRotator - barrelRotator;[m
+[31m-	barrel->Elevate(2.0f);[m
+[32m+[m	[32mbarrel->Elevate(1.0f);[m
+ }[m
+ [m
+ void UTankAimingComponent::AimAt(FVector targetLocation, float launchSpeed)[m
+[1mdiff --git a/Source/battletank/TankAimingComponent.h b/Source/battletank/TankAimingComponent.h[m
+[1mindex 6727043..90d0b4a 100644[m
+[1m--- a/Source/battletank/TankAimingComponent.h[m
+[1m+++ b/Source/battletank/TankAimingComponent.h[m
+[36m@@ -2,10 +2,10 @@[m
+ [m
+ #pragma once[m
+ [m
+[31m-#include "TankBarrel.h"[m
+ #include "Components/ActorComponent.h"[m
+ #include "TankAimingComponent.generated.h"[m
+ [m
+[32m+[m[32mclass UTankBarrel;[m
+ [m
+ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )[m
+ class BATTLETANK_API UTankAimingComponent : public UActorComponent[m
+[1mdiff --git a/Source/battletank/TankBarrel.cpp b/Source/battletank/TankBarrel.cpp[m
+[1mindex 43dd6e3..8bf116e 100644[m
+[1m--- a/Source/battletank/TankBarrel.cpp[m
+[1m+++ b/Source/battletank/TankBarrel.cpp[m
+[36m@@ -6,5 +6,8 @@[m
+ [m
+ void UTankBarrel::Elevate(float relativeSpeed)[m
+ {[m
+[31m-	UE_LOG(LogTemp, Warning, TEXT("elevating tank barrel at %f \n"), relativeSpeed);[m
+[32m+[m	[32mauto elevationChange = relativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;[m
+[32m+[m	[32mauto rawNewElevation = RelativeRotation.Pitch + elevationChange;[m
+[32m+[m
+[32m+[m	[32mSetRelativeRotation(FRotator(rawNewElevation, 0, 0));[m[41m	[m
+ }[m
+[1mdiff --git a/Source/battletank/TankBarrel.h b/Source/battletank/TankBarrel.h[m
+[1mindex 935bdaa..cc3a58f 100644[m
+[1m--- a/Source/battletank/TankBarrel.h[m
+[1m+++ b/Source/battletank/TankBarrel.h[m
+[36m@@ -1,13 +1,8 @@[m
+[31m-// Fill out your copyright notice in the Description page of Project Settings.[m
+[31m-[m
+ #pragma once[m
+ [m
+ #include "Components/StaticMeshComponent.h"[m
+ #include "TankBarrel.generated.h"[m
+ [m
+[31m-/**[m
+[31m- * [m
+[31m- */[m
+ UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))[m
+ class BATTLETANK_API UTankBarrel : public UStaticMeshComponent[m
+ {[m
+[1mdiff --git a/Source/battletank/TankPlayerController.cpp b/Source/battletank/TankPlayerController.cpp[m
+[1mindex cabdfd1..3fcea08 100644[m
+[1m--- a/Source/battletank/TankPlayerController.cpp[m
+[1m+++ b/Source/battletank/TankPlayerController.cpp[m
+[36m@@ -1,5 +1,4 @@[m
+[31m-// Fill out your copyright notice in the Description page of Project Settings.[m
+[31m-[m
+[32m+[m[32m#include "Tank.h"[m
+ #include "battletank.h"[m
+ #include "TankPlayerController.h"[m
+ [m
+[1mdiff --git a/Source/battletank/TankPlayerController.h b/Source/battletank/TankPlayerController.h[m
+[1mindex 38a4e5e..4a46090 100644[m
+[1m--- a/Source/battletank/TankPlayerController.h[m
+[1m+++ b/Source/battletank/TankPlayerController.h[m
+[36m@@ -1,15 +1,11 @@[m
+[31m-// Fill out your copyright notice in the Description page of Project Settings.[m
+[31m-[m
+ #pragma once[m
+[31m-#include "Tank.h"[m
+[32m+[m
+ #include "GameFramework/PlayerController.h"[m
+ #include "TankPlayerController.generated.h"[m
+ [m
+[31m-/**[m
+[31m- *[m
+[31m- */[m
+[31m-UCLASS()[m
+[32m+[m[32mclass ATank;[m
+ [m
+[32m+[m[32mUCLASS()[m
+ class BATTLETANK_API ATankPlayerController : public APlayerController[m
+ {[m
+ 	GENERATED_BODY()[m

@@ -2,7 +2,7 @@
 
 #include "battletank.h"
 #include "TankAimingComponent.h"
-
+#include "TankBarrel.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -33,7 +33,7 @@ void UTankAimingComponent::moveBarrelTowards(FVector direction)
 	auto barrelRotator = barrel->GetForwardVector().Rotation();
 	auto aimAsRotator = direction.Rotation();
 	auto deltaRotator = aimAsRotator - barrelRotator;
-	barrel->Elevate(2.0f);
+	barrel->Elevate(1.0f);
 }
 
 void UTankAimingComponent::AimAt(FVector targetLocation, float launchSpeed)
