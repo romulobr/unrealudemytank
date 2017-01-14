@@ -42,12 +42,18 @@ void UTankAimingComponent::AimAt(FVector targetLocation, float launchSpeed)
 	auto startLocation = barrel->GetSocketLocation(FName("projectile"));
 	
 	FVector OUT velocity;
-	if(UGameplayStatics::SuggestProjectileVelocity(this, velocity, startLocation, targetLocation, launchSpeed, false))
+	auto foundSuggestedVelocity = UGameplayStatics::SuggestProjectileVelocity(this, velocity, startLocation, targetLocation, launchSpeed, false,0,0,ESuggestProjVelocityTraceOption::DoNotTrace);
+	
+	if(foundSuggestedVelocity)
 	{
 		auto aimDirection = velocity.GetSafeNormal();
 		moveBarrelTowards(aimDirection);
 		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s \n"), *name, *aimDirection.ToString());
-	}		
+	}else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Could not find aim velocity sugestion \n"));
+	}
+
 }
 
 void UTankAimingComponent::SetBarrel(UTankBarrel* barrelToSet)
