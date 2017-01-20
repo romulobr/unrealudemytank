@@ -3,6 +3,7 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+class UTankTurret;
 class UTankBarrel;
 class UTankAimingComponent;
 
@@ -30,5 +31,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrel(UTankBarrel* barrel);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurret(UTankTurret* turret);
 	
 };

@@ -34,3 +34,8 @@ void ATank::SetBarrel(UTankBarrel* barrel)
 {	
 	aimingComponent->SetBarrel(barrel);
 }
+
+void ATank::SetTurret(UTankTurret* turret)
+{
+	aimingComponent->SetTurret(turret);
+}
