@@ -39,3 +39,8 @@ void ATank::SetTurret(UTankTurret* turret)
 {
 	aimingComponent->SetTurret(turret);
 }
+
+void ATank::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s FIRING!"), *GetName());
+}

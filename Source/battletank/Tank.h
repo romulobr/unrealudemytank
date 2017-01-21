@@ -29,10 +29,13 @@ public:
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 100000;
 
+	UFUNCTION(BlueprintCallable, Category = Firing)
+	void Fire();
+
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrel(UTankBarrel* barrel);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurret(UTankTurret* turret);
-	
+		
 };
