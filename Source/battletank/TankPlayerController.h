@@ -19,6 +19,8 @@ private:
 	bool hitSomethingAndPutResultsInto(FHitResult& result, FVector* worldLocation, FVector* lookDirection) const;
 
 	bool gotSightRayHitLocationIn(OUT FVector& hitLocation) const;
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
+	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
 
 public:
 	ATank* GetControlledTank() const;

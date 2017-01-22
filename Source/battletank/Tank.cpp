@@ -4,6 +4,7 @@
 #include "Tank.h"
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "Projectile.h"
 
 // Sets default values
 ATank::ATank()
@@ -20,9 +21,9 @@ void ATank::BeginPlay()
 }
 
 // Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
+void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponentToSet)
 {
-	Super::SetupPlayerInputComponent(InputComponent);
+	Super::SetupPlayerInputComponent(InputComponentToSet);
 }
 
 void ATank::AimAt(FVector location)
@@ -30,9 +31,10 @@ void ATank::AimAt(FVector location)
 	aimingComponent->AimAt(location, LaunchSpeed);
 }
 
-void ATank::SetBarrel(UTankBarrel* barrel)
+void ATank::SetBarrel(UTankBarrel* barrelToSet)
 {	
-	aimingComponent->SetBarrel(barrel);
+	barrel = barrelToSet;
+	aimingComponent->SetBarrel(barrelToSet);
 }
 
 void ATank::SetTurret(UTankTurret* turret)
@@ -41,6 +43,10 @@ void ATank::SetTurret(UTankTurret* turret)
 }
 
 void ATank::Fire()
-{
-	UE_LOG(LogTemp, Warning, TEXT("%s FIRING!"), *GetName());
+{		
+	if(!barrel){ return;}
+	auto location = barrel->GetSocketLocation(PROJECTILE_NAME);
+	auto rotation = barrel->GetSocketRotation(PROJECTILE_NAME);
+	auto projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBluePrint, location, rotation);
+	projectile->LaunchProjectile(LaunchSpeed);
 }
