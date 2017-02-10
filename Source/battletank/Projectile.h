@@ -12,7 +12,7 @@ class BATTLETANK_API AProjectile : public AActor
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	UProjectileMovementComponent* ProjectileMomeventComponent;
 public:	
 	// Sets default values for this actor's properties

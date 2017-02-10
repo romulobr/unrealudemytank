@@ -28,12 +28,12 @@ public:
 	void BeginPlay() override;
 	void Tick(float DeltaTime);
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float aimRange = 100000.0f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float crossHairXLocation = 0.5;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float crossHairYLocation = 0.33333;
 };

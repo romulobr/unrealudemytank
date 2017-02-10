@@ -32,7 +32,7 @@ void ATank::AimAt(FVector location)
 }
 
 void ATank::SetBarrel(UTankBarrel* barrelToSet)
-{	
+{
 	barrel = barrelToSet;
 	aimingComponent->SetBarrel(barrelToSet);
 }
@@ -43,10 +43,14 @@ void ATank::SetTurret(UTankTurret* turret)
 }
 
 void ATank::Fire()
-{		
-	if(!barrel){ return;}
-	auto location = barrel->GetSocketLocation(PROJECTILE_NAME);
-	auto rotation = barrel->GetSocketRotation(PROJECTILE_NAME);
-	auto projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBluePrint, location, rotation);
-	projectile->LaunchProjectile(LaunchSpeed);
+{
+	auto readyToFire = barrel && ((FPlatformTime::Seconds() - lastFireTime) > reloadTimeInSeconds);
+	if (readyToFire)
+	{
+		auto location = barrel->GetSocketLocation(PROJECTILE_NAME);
+		auto rotation = barrel->GetSocketRotation(PROJECTILE_NAME);
+		auto projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBluePrint, location, rotation);
+		projectile->LaunchProjectile(LaunchSpeed);
+		lastFireTime = FPlatformTime::Seconds();
+	}
 }

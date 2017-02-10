@@ -33,10 +33,14 @@ public:
 
 	void AimAt(FVector location);
 
-	UPROPERTY(EditAnywhere, Category = Firing)
+	
+	double lastFireTime = FPlatformTime::Seconds();
+	float reloadTimeInSeconds = 2.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 10000.0f;
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBluePrint;
 
 	UFUNCTION(BlueprintCallable, Category = Firing)

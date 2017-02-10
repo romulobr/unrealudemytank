@@ -7,6 +7,7 @@
 class ATank;
 
 UCLASS()
+
 class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
@@ -14,6 +15,20 @@ class BATTLETANK_API ATankAIController : public AAIController
 private:
 	void BeginPlay() override;
 	void Tick(float DeltaTime);
-	ATank* GetControlledTank() const;
-	ATank* GetPlayerTank() const;
+
+	ATank* GetControlledTank() const
+	{
+		return Cast<ATank>(GetPawn());
+	};
+
+	ATank* GetPlayerTank() const
+	{
+		auto playerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+		ATank* playerTankOrNull = nullptr;
+		if (playerPawn)
+		{
+			playerTankOrNull = Cast<ATank>(playerPawn);
+		}
+		return playerTankOrNull;
+	}
 };
